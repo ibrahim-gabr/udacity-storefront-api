@@ -1,54 +1,113 @@
+
 # Storefront Backend Project
 
 ## Getting Started
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+This repo contains a basic Node and Express app to get you started in constructing an API. To get started, follow these steps:
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+### Prerequisites
 
-## Steps to Completion
+- Node.js installed on your machine
+- PostgreSQL installed on your machine
+- Yarn package manager (optional, but recommended)
+- db-migrate from npm for migrations installed globally
 
-### 1. Plan to Meet Requirements
+```bash
+yarn global add db-migrate
+```
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+Or, if you are using npm:
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+```bash
+npm install -g db-migrate
+```
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
 
-### 2.  DB Creation and Migrations
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
+### Package Installation
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+Run the following command in your terminal at the project root to install all necessary dependencies:
 
-### 3. Models
+```bash
+yarn
+```
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+Or, if you prefer npm:
 
-### 4. Express Handlers
+```bash
+npm install
+```
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+### Database Setup and Connection
 
-### 5. JWTs
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
 
-### 6. QA and `README.md`
+1. **Environment Variables**: Copy the `.env.example` file to a new file named `.env` and fill in the database connection details:
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+```plaintext
+POSTGRES_HOST=localhost
+POSTGRES_DB=your_database_name
+POSTGRES_USER=your_postgres_username
+POSTGRES_PASSWORD=your_postgres_password
+POSTGRES_TEST_DB=your_test_database_name
+ENV=dev
+PORT=3000
+TOKEN_SECRET=your_secret
+BCRYPT_PASSWORD=your_password
+SALT_ROUNDS=10
+```
+1. **Database Connection**: Ensure you have PostgreSQL installed on your machine and set the connection details in the `.env` file and the database name that will be created `POSTGRES_TEST_DB`
+2. **Prepare Database and Migrations**: to create the database and migrations, run the following command:
+mnbv vc 
+```bash
+yarn migrate
+```
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+Or, if you are using npm:
+
+```bash
+npm run migrate
+```
+
+
+database will be created with the name as the one you set in env file and the migrations will be run to create the tables.
+
+
+### Running the Application
+
+- **Start the Backend Server**: To start the server, run:
+
+```bash
+yarn start
+```
+
+Or, if you are using npm:
+
+```bash
+npm start
+```
+
+The backend server will start on `http://localhost:3000`. You can change the default port by setting the `PORT` variable in your `.env` file.
+
+### Ports
+
+- The backend server runs on port `3000` by default.
+- PostgreSQL runs on its default port `5432`.
+
+### Testing
+
+To run the tests, ensure you have set `POSTGRES_TEST_DB` in your `.env` file, and then run:
+
+```bash
+yarn test
+```
+
+Or, if you are using npm:
+
+```bash
+npm test
+```
+
+this will prepare a separate test database, run the migrations and run the tests.
+

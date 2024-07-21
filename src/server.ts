@@ -3,9 +3,11 @@ import bodyParser from 'body-parser'
 import productRoutes from "./handlers/products";
 import userRoutes from "./handlers/users";
 import orderRoutes from "./handlers/orders";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app: express.Application = express()
-const address: string = "0.0.0.0:9000"
+const address: string = process.env.PORT || '3000';
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
