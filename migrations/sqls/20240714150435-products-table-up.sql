@@ -1,4 +1,5 @@
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    name VARCHAR
+    name VARCHAR,
+    price DECIMAL
 );

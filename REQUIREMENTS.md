@@ -15,6 +15,7 @@ These are the notes from a meeting with the frontend developer that describe wha
     ```json
     {
       "name": "product name",
+      "price": 100
     }
     ```
 

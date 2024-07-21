@@ -5,7 +5,8 @@ import client, {resetDatabase} from "../database";
 
 
 const store = new OrderStore()
-
+const name = 'Test Product';
+const price = 99;
 const productStore = new ProductStore();
 beforeAll(async () => {
     await resetDatabase();
@@ -15,7 +16,7 @@ describe("Order Model", () => {
 
     describe('create method', () => {
             it('create method should add a order', async () => {
-                let product = await productStore.create({name: "Test Product"})
+                let product = await productStore.create({name, price})
                 const userStore = new UserStore();
                 const user = await userStore.create({firstName: 'ibrahim', lastName: "gabr", password: 'password'})
                 const result = await store.create({
