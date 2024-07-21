@@ -2,9 +2,11 @@ import Client from '../database'
 import {Product} from "./product";
 
 export type Order = {
-    id: number;
-    user_id: string;
+    id: number ;
+    user_id: number ;
     status: 'active' | 'complete';
+    product_id?: number ;
+    quantity?: number;
 }
 
 export class OrderStore {
@@ -17,21 +19,30 @@ export class OrderStore {
 
             conn.release()
 
-            return result.rows
+            return result.rows.map(order => ({
+                ...order,
+                user_id: parseInt(order.user_id),
+            }));
         } catch (err) {
             throw new Error(`Could not get orders. Error: ${err}`)
         }
     }
 
+
     async show(id: string): Promise<Order> {
         try {
             const conn = await Client.connect()
-            const query = 'SELECT * FROM orders where id=$1 AND status=$2';
-            const result = await conn.query(query, [id, 'active'])
+            const query = 'SELECT * FROM orders INNER join orders_products on orders.id = orders_products.order_id where orders.id=$1';
+            const result = await conn.query(query, [id])
 
             conn.release()
-
-            return result.rows[0]
+            return {
+                id: parseInt(result.rows[0].id),
+                user_id: parseInt(result.rows[0].user_id),
+                status:result.rows[0].status,
+                product_id:parseInt(result.rows[0].product_id),
+                quantity:result.rows[0].quantity
+            }
         } catch (err) {
             throw new Error(`Could not get order. Error: ${err}`)
         }
@@ -52,10 +63,10 @@ export class OrderStore {
     }
 
     async create({user_id, product_id, quantity}: {
-        user_id: string;
-        product_id: string,
+        user_id: number;
+        product_id: number,
         quantity: number
-    }): Promise<Product> {
+    }): Promise<Order & {product_id:number;quantity:number}> {
         try {
             const conn = await Client.connect()
             const query = 'insert into orders (user_id, status) values ($1,$2) RETURNING *'
@@ -63,12 +74,15 @@ export class OrderStore {
             const order_id = result.rows[0].id
 
             const query2 = 'insert into orders_products (product_id, order_id, quantity) VALUES ($1,$2,$3) RETURNING *'
-
             const result2 = await conn.query(query2, [product_id, order_id, quantity])
-
             conn.release()
-
-            return result2.rows[0]
+            return {
+                id: parseInt(result2.rows[0].order_id),
+                user_id: parseInt(result.rows[0].user_id),
+                status:result.rows[0].status,
+                product_id:parseInt(result2.rows[0].product_id),
+                quantity:result2.rows[0].quantity
+            }
         } catch (err) {
             throw new Error(`Could not create order. Error: ${err}`)
         }

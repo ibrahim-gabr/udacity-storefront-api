@@ -21,15 +21,16 @@ export class ProductStore {
         }
     }
 
-    async show(id: string): Promise<Product> {
+    async show(id: string): Promise<Product | string> {
         try {
             const conn = await Client.connect()
             const query = 'SELECT * FROM products where id=$1'
 
             const result = await conn.query(query, [id])
-
             conn.release()
-
+            if(result.rowCount === 0){
+                return 'Product not found'
+            }
             return result.rows[0]
         } catch (err) {
             throw new Error(`Could not get products. Error: ${err}`)
@@ -44,7 +45,6 @@ export class ProductStore {
             const result = await conn.query(query, [name])
 
             conn.release()
-
             return result.rows[0]
         } catch (err) {
             throw new Error(`Could not get products. Error: ${err}`)
