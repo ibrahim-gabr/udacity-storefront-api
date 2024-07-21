@@ -58,6 +58,26 @@ BCRYPT_PASSWORD=your_password
 SALT_ROUNDS=10
 ```
 1. **Database Connection**: Ensure you have PostgreSQL installed on your machine and set the connection details in the `.env` file and the database name that will be created `POSTGRES_TEST_DB`
+2. **Creating the database.json File**: To execute migrations, you need to create a database.json file in the root of your project. This file should contain the configuration for your development and test databases. Here is an example configuration:
+
+```json
+{
+  "dev": {
+    "driver": "pg",
+    "user": "your_postgres_username",
+    "password": "your_postgres_password",
+    "host": "localhost",
+    "database": "your_database_name",
+  },
+  "test": {
+    "driver": "pg",
+    "user": "your_postgres_username",
+    "password": "your_postgres_password",
+    "host": "localhost",
+    "database": "your_test_database_name",
+  }
+}
+```
 2. **Prepare Database and Migrations**: to create the database and migrations, run the following command:
 mnbv vc 
 ```bash
