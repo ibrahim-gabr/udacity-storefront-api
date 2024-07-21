@@ -7,7 +7,9 @@
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
     "tsc": "tsc",
-    "test": "cross-env ENV=test node create-test-db.js && npx tsc && db-migrate --env test up && jasmine-ts; node cleanup.js"
+    "premigrate": "ts-node prepare-db.ts",
+    "migrate": "yarn premigrate && db-migrate up",
+    "test": "cross-env-shell ENV=test \"echo env : $ENV; yarn migrate && npx tsc && db-migrate --env test up && echo $ENV && jasmine-ts; node cleanup.js\""
   },
   "author": "Udacity",
   "license": "ISC",

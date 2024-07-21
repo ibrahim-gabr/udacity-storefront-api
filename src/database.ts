@@ -12,9 +12,11 @@ const {
     ENV
 } = process.env
 
+const databaseName = ENV === 'test' ? POSTGRES_TEST_DB : POSTGRES_DB
+
 let client: Pool = new Pool({
     host: POSTGRES_HOST,
-    database: ENV === 'test' ? POSTGRES_TEST_DB : POSTGRES_DB,
+    database: databaseName,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
 });
