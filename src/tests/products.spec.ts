@@ -10,7 +10,7 @@ beforeAll(async () => {
     await resetDatabase()
 });
 
-describe('ProductStore Tests', () => {
+describe('Product Model', () => {
     describe('create method', () => {
         it('adds a new product and returns it', async () => {
             const result = await store.create({ name });
@@ -37,7 +37,7 @@ describe('ProductStore Tests', () => {
 
         it('returns undefined for a non-existent product id', async () => {
             const result = await store.show('999');
-            expect(result).toEqual('Product not found');
+            expect(result).toBeUndefined()
         });
     });
 

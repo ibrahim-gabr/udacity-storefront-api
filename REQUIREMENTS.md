@@ -6,26 +6,54 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## API Endpoints
 #### Products
 - Index 
+    - /products
 - Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+  - /products/:id
+- Create (body: name) [token required]
+  - /products
+  - Example body:
+    ```json
+    {
+      "name": "product name",
+    }
+    ```
+
 
 #### Users
 - Index [token required]
+  - /users
 - Show [token required]
-- Create N[token required]
+  - /users/:id
+- Create [no token required]
+  - /users
+  - Example body:
+    ```json
+    {
+      "firstName": "first name",
+      "lastName": "last name",
+      "password": "password"
+    }
+    ```
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user_id) [token required]
+  - /orders/user/:user_id
+- create Order (body: user_id, product_id, quantity)[token required]
+  - /orders
+  - Example body:
+    ```json
+    {
+      "user_id": 1,
+      "product_id": 1,
+      "quantity": 1
+    }
+    ```
 
 ## Data Shapes
 #### Product
 -  id
 - name
 - price
-- [OPTIONAL] category
 
 #### User
 - id

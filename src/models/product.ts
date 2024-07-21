@@ -28,9 +28,6 @@ export class ProductStore {
 
             const result = await conn.query(query, [id])
             conn.release()
-            if(result.rowCount === 0){
-                return 'Product not found'
-            }
             return result.rows[0]
         } catch (err) {
             throw new Error(`Could not get products. Error: ${err}`)
