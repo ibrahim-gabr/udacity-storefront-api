@@ -51,21 +51,28 @@ These are the notes from a meeting with the frontend developer that describe wha
     ```
 
 ## Data Shapes
-#### Product
--  id
-- name
-- price
+#### Products
+- `id`: Primary key, auto-increments.
+- `name`: String, name of the product.
+- `price`: Numeric, price of the product.
 
-#### User
-- id
-- firstName
-- lastName
-- password
+#### Users
+- `id`: Primary key, auto-increments.
+- `firstName`: String, first name of the user.
+- `lastName`: String, last name of the user.
+- `password`: String, hashed password of the user.
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- `id`: Primary key, auto-increments.
+- `user_id`: Foreign key, references `Users(id)`.
+- `status`: String, status of the order (active or complete).
 
+#### Order_Products (Auxiliary Table)
+This table establishes a many-to-many relationship between `Products` and `Orders`. It contains the following columns:
+- `order_id`: Foreign key, references `Orders(id)`.
+- `product_id`: Foreign key, references `Products(id)`.
+- `quantity`: Integer, quantity of each product in the order.
+
+### Relationships
+- Each `Order` can contain multiple `Products`, and each `Product` can be part of multiple `Orders`. This many-to-many relationship is facilitated by the `Order_Products` table.
+- The `user_id` in the `Orders` table establishes a one-to-many relationship with the `Users` table, where each `User` can have multiple `Orders`.
